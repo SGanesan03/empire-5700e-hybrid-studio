@@ -1,0 +1,251 @@
+.dash-page {
+  padding: 6px;
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--win-btnface);
+}
+
+/* ── Group Box — Windows groupbox style ── */
+.group-box {
+  background: var(--win-btnface);
+  border: 2px solid;
+  border-color: var(--border-sh) var(--border-hi) var(--border-hi) var(--border-sh);
+  position: relative;
+  padding: 4px 6px 6px;
+}
+
+.group-title {
+  position: absolute;
+  top: -8px;
+  left: 8px;
+  background: var(--win-btnface);
+  padding: 0 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ── Simulator Panel ── */
+.sim-panel {
+  background: var(--win-btnface);
+  border: 2px solid;
+  border-color: var(--border-sh) var(--border-hi) var(--border-hi) var(--border-sh);
+  padding: 0;
+}
+
+.sim-title {
+  background: var(--win-titlebar);
+  background: linear-gradient(to right, #000080 0%, #1084d0 100%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 8px;
+  font-size: 10px;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.sim-badge {
+  background: #ffffff;
+  color: #000080;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 0 5px;
+  letter-spacing: 0.3px;
+}
+
+.sim-body {
+  padding: 8px;
+}
+
+.sim-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+  align-items: end;
+}
+
+.ctrl-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ctrl-item label {
+  font-size: 10.5px;
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+
+.ctrl-item strong {
+  color: #000080;
+  font-family: var(--font-mono);
+}
+
+.ctrl-item input[type="range"] {
+  padding: 0;
+  accent-color: #000080;
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  background: none;
+  height: 18px;
+}
+
+.gas-btn {
+  background: var(--win-btnface);
+  border: 2px solid;
+  border-color: var(--border-hi) var(--border-dk) var(--border-dk) var(--border-hi);
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.gas-btn:active {
+  border-color: var(--border-dk) var(--border-hi) var(--border-hi) var(--border-dk);
+}
+.gas-btn.active {
+  color: #cc6600;
+  font-weight: 700;
+}
+
+/* ── KPI Grid — Windows "Process Variables" panel ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 6px;
+}
+
+.kpi-card {
+  background: var(--win-btnface);
+  border: 2px solid;
+  border-color: var(--border-sh) var(--border-hi) var(--border-hi) var(--border-sh);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navy title strip — matches reference screenshot panel headers */
+.kpi-label {
+  background: linear-gradient(to right, #000080 0%, #1084d0 100%);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kpi-card.primary .kpi-label { background: linear-gradient(to right, #004080 0%, #0070c0 100%); }
+.kpi-card.oil     .kpi-label { background: linear-gradient(to right, #004000 0%, #007000 100%); }
+.kpi-card.warn-card           { background: #fffaee; }
+.kpi-card.warn-card .kpi-label { background: linear-gradient(to right, #804000 0%, #c06000 100%); }
+
+.kpi-body {
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: var(--bg-window);
+  flex: 1;
+  border: 2px solid;
+  border-color: var(--border-sh) var(--border-hi) var(--border-hi) var(--border-sh);
+  margin: 3px;
+}
+
+/* Large digital readout — matches reference LCD-style values */
+.kpi-value {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 700;
+  color: #000080;
+  line-height: 1.15;
+}
+
+.kpi-value small {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+}
+
+.kpi-sub {
+  font-size: 10px;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #c0bdb4;
+  padding-top: 3px;
+  margin-top: 1px;
+}
+
+.reset-link {
+  color: #000080;
+  text-decoration: underline;
+  font-size: 10px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-ui);
+}
+
+/* ── Trend Chart ── */
+.trend-card {
+  background: var(--win-btnface);
+  border: 2px solid;
+  border-color: var(--border-sh) var(--border-hi) var(--border-hi) var(--border-sh);
+}
+
+.trend-head {
+  background: linear-gradient(to right, #000080 0%, #1084d0 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 8px;
+}
+
+.trend-head h3 {
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.trend-head p {
+  font-size: 9.5px;
+  color: #c8e4ff;
+  margin: 0;
+}
+
+.scan-badge {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  background: rgba(0,0,0,0.3);
+  padding: 1px 6px;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #c8e4ff;
+}
+
+.svg-wrap {
+  width: 100%;
+  height: 140px;
+  background: #ffffff;
+  border: 2px solid;
+  border-color: var(--border-sh) var(--border-hi) var(--border-hi) var(--border-sh);
+  margin: 4px;
+  width: calc(100% - 8px);
+  overflow: hidden;
+}
+
+.svg-wrap svg {
+  width: 100%;
+  height: 100%;
+}

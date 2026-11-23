@@ -1,0 +1,238 @@
+.diag-page {
+  padding: 6px;
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--win-btnface);
+}
+
+/* ── SMV Hero Panel ── */
+.smv-hero {
+  background: var(--win-btnface);
+  border: 2px solid;
+  border-color: var(--border-sh) var(--border-hi) var(--border-hi) var(--border-sh);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 0;
+  overflow: hidden;
+}
+
+.smv-hero-body {
+  padding: 8px 10px;
+}
+
+.smv-hero h3 {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 3px;
+  color: var(--text-primary);
+}
+
+.smv-hero p {
+  font-size: 10.5px;
+  color: var(--text-secondary);
+}
+
+.smv-hero-title {
+  background: linear-gradient(to right, #000080 0%, #1084d0 100%);
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  width: 100%;
+}
+
+.run-smv-btn {
+  background: var(--win-btnface);
+  color: #004000;
+  font-weight: 700;
+  font-size: 11px;
+  border: 2px solid;
+  border-color: var(--border-hi) var(--border-dk) var(--border-dk) var(--border-hi);
+  padding: 4px 14px;
+  margin: 8px 10px 8px 0;
+  flex-shrink: 0;
+}
+.run-smv-btn:active {
+  border-color: var(--border-dk) var(--border-hi) var(--border-hi) var(--border-dk);
+}
+.run-smv-btn:disabled { color: var(--text-muted); cursor: wait; }
+
+/* ── Cards ── */
+.card {
+  background: var(--win-btnface);
+  border: 2px solid;
+  border-color: var(--border-sh) var(--border-hi) var(--border-hi) var(--border-sh);
+}
+
+.card-header {
+  background: linear-gradient(to right, #000080 0%, #1084d0 100%);
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+
+.card-body { padding: 8px; }
+
+.table-wrap { overflow-x: auto; }
+
+.emr-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 11px;
+}
+
+.emr-table th {
+  background: var(--bg-table-head);
+  color: var(--text-primary);
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 4px 7px;
+  border: 1px solid var(--border-sh);
+  text-transform: uppercase;
+}
+
+.emr-table td {
+  padding: 4px 7px;
+  border: 1px solid #c0bdb4;
+  background: var(--bg-window);
+  font-size: 11px;
+}
+
+.emr-table tr:nth-child(even) td { background: var(--bg-table-alt); }
+.emr-table tr:hover td { background: #dde8f8; }
+
+.mono  { font-family: var(--font-mono); }
+.muted { color: var(--text-secondary); font-size: 10.5px; }
+
+/* Result badges — Windows Device Manager icon style */
+.res-badge {
+  padding: 1px 7px;
+  font-size: 10.5px;
+  font-weight: 700;
+  border: 1px solid;
+  display: inline-block;
+}
+.res-badge[data-res="PASS"]    { background: #e8ffe8; color: #004000; border-color: #008000; }
+.res-badge[data-res="WARNING"] { background: #fff8e0; color: #804000; border-color: #cc8800; }
+.res-badge[data-res="FAIL"]    { background: #ffe8e8; color: #800000; border-color: #cc0000; }
+
+/* ── Alerts List ── */
+.alerts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.alert-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 8px;
+  background: var(--bg-window);
+  border: 1px solid #c0bdb4;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.alert-row.active {
+  background: #fff8e0;
+  border-color: #cc8800;
+}
+
+.al-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.al-left strong {
+  font-size: 11px;
+  display: block;
+}
+
+.al-left p {
+  font-size: 10.5px;
+  color: var(--text-secondary);
+  margin-top: 1px;
+}
+
+/* NAMUR category tag */
+.ne-tag {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 5px;
+  border: 1px solid;
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: #e8eef8;
+  color: #000080;
+  border-color: #8080cc;
+}
+.ne-tag[data-cat="MAINTENANCE_REQUIRED"] { background: #e8eef8; color: #000080; border-color: #0000cc; }
+.ne-tag[data-cat="CHECK_FUNCTION"]       { background: #fff8e0; color: #804000; border-color: #cc8800; }
+.ne-tag[data-cat="FAILURE"]              { background: #ffe8e8; color: #800000; border-color: #cc0000; }
+
+.al-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.state-txt {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.ack-btn {
+  background: var(--win-btnface);
+  color: var(--win-btntext);
+  border: 2px solid;
+  border-color: var(--border-hi) var(--border-dk) var(--border-dk) var(--border-hi);
+  padding: 2px 8px;
+  font-size: 10.5px;
+}
+.ack-btn:active {
+  border-color: var(--border-dk) var(--border-hi) var(--border-hi) var(--border-dk);
+}
+
+/* ── Historian Export Bar ── */
+.historian-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.historian-bar p {
+  font-size: 10.5px;
+  color: var(--text-secondary);
+}
+
+.export-btn {
+  background: var(--win-btnface);
+  color: var(--win-btntext);
+  border: 2px solid;
+  border-color: var(--border-hi) var(--border-dk) var(--border-dk) var(--border-hi);
+  padding: 3px 12px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.export-btn:active {
+  border-color: var(--border-dk) var(--border-hi) var(--border-hi) var(--border-dk);
+}

@@ -1,0 +1,79 @@
+<div class="diag-page" *ngIf="state">
+
+  <!-- Smart Meter Verification -->
+  <section class="smv-hero">
+    <div class="smv-hero-title">Smart Meter Verification (SMV) — In-Situ Tube Integrity Check</div>
+    <div class="smv-hero-body">
+      <h3>Smart Meter Verification (SMV)</h3>
+      <p>Verifies sensor tube stiffness, zero stability &amp; core processor electronics without interrupting flow.</p>
+    </div>
+    <button class="run-smv-btn" [disabled]="runningSmv" (click)="triggerSmv()">
+      {{ runningSmv ? 'Running Tube Sweep...' : '▶ Run Smart Meter Verification' }}
+    </button>
+  </section>
+
+  <!-- SMV Audit History -->
+  <section class="card">
+    <div class="card-header">Smart Meter Verification History</div>
+    <div class="card-body">
+      <div class="table-wrap">
+        <table class="emr-table">
+          <thead>
+            <tr>
+              <th>Test ID</th>
+              <th>Timestamp</th>
+              <th>Result</th>
+              <th>Tube Stiffness Dev %</th>
+              <th>Zero Stability</th>
+              <th>Drive Gain %</th>
+              <th>Diagnostic Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let rec of state.smvHistory">
+              <td class="mono">{{ rec.id }}</td>
+              <td class="mono">{{ rec.timestamp }}</td>
+              <td><span class="res-badge" [attr.data-res]="rec.result">{{ rec.result }}</span></td>
+              <td class="mono">{{ rec.tubeStiffnessDeviationPct }}%</td>
+              <td class="mono">{{ rec.zeroStabilityStatus }}</td>
+              <td class="mono">{{ rec.driveGainAtTest }}%</td>
+              <td class="muted">{{ rec.notes }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- NAMUR NE107 Alerts -->
+  <section class="card">
+    <div class="card-header">NAMUR NE107 Device Diagnostics &amp; Active Alerts</div>
+    <div class="card-body">
+      <div class="alerts-list">
+        <div *ngFor="let al of state.alerts" class="alert-row" [class.active]="al.active">
+          <div class="al-left">
+            <span class="ne-tag" [attr.data-cat]="al.namurCategory">{{ al.namurCategory }}</span>
+            <div>
+              <strong>[{{ al.code }}] {{ al.title }}</strong>
+              <p>{{ al.description }} — <em>Action: {{ al.recommendedAction }}</em></p>
+            </div>
+          </div>
+          <div class="al-right">
+            <span class="state-txt">{{ al.active ? 'ACTIVE' : 'CLEARED' }}</span>
+            <button *ngIf="!al.acknowledged" class="ack-btn" (click)="ackAlert(al.id)">Acknowledge</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Historian Export -->
+  <section class="card">
+    <div class="card-header">Internal Device Historian ({{ state.historian.length }} Live Records)</div>
+    <div class="card-body historian-bar">
+      <p>Download timestamped mass flow, net oil volume, density, temperature &amp; drive gain logs.</p>
+      <button class="export-btn" (click)="exportCsv()">&#11015; Export Historian CSV</button>
+    </div>
+  </section>
+
+</div>

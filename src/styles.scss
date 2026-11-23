@@ -1,0 +1,122 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Windows Classic System Colors */
+  --win-desktop:       #008080;   /* classic teal desktop */
+  --win-titlebar:      #000080;   /* active title bar */
+  --win-titlebar-text: #ffffff;
+  --win-menu:          #d4d0c8;
+  --win-menutext:      #000000;
+  --win-window:        #ffffff;
+  --win-windowframe:   #000000;
+  --win-windowtext:    #000000;
+  --win-btnface:       #d4d0c8;   /* button face / shell bg */
+  --win-btnhighlight:  #ffffff;   /* top-left bevel */
+  --win-btnshadow:     #808080;   /* bottom-right bevel */
+  --win-btndkshadow:   #404040;
+  --win-btntext:       #000000;
+  --win-graytext:      #808080;
+  --win-highlight:     #0a246a;   /* selection blue */
+  --win-highlighttext: #ffffff;
+  --win-infotext:      #000000;
+  --win-infobk:        #ffffe1;   /* tooltip yellow */
+  --win-scrollbar:     #d4d0c8;
+
+  /* Semantic aliases */
+  --bg-shell:       var(--win-btnface);
+  --bg-window:      var(--win-window);
+  --bg-panel:       var(--win-btnface);
+  --bg-titlebar:    var(--win-titlebar);
+  --bg-input:       var(--win-window);
+  --bg-table-head:  #c0bdb4;
+  --bg-table-alt:   #eeecea;
+  --border-hi:      var(--win-btnhighlight);
+  --border-sh:      var(--win-btnshadow);
+  --border-dk:      var(--win-btndkshadow);
+  --text-primary:   var(--win-windowtext);
+  --text-secondary: #333333;
+  --text-muted:     var(--win-graytext);
+  --text-title:     var(--win-titlebar-text);
+
+  /* Status colors — Windows Device Manager style */
+  --status-ok:      #008000;
+  --status-warn:    #cc6600;
+  --status-info:    #000080;
+  --status-error:   #cc0000;
+
+  --font-ui:   'Tahoma', 'MS Sans Serif', Arial, sans-serif;
+  --font-mono: 'Courier New', Consolas, monospace;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: var(--win-desktop);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  -webkit-font-smoothing: none;
+}
+
+/* ── Windows 3D border helpers ── */
+/* raised: light TL, dark BR */
+.w-raised {
+  border: 2px solid;
+  border-color: var(--border-hi) var(--border-dk) var(--border-dk) var(--border-hi);
+}
+/* sunken: dark TL, light BR */
+.w-sunken {
+  border: 2px solid;
+  border-color: var(--border-sh) var(--border-hi) var(--border-hi) var(--border-sh);
+}
+
+/* ── Scrollbar — Windows classic wide ── */
+::-webkit-scrollbar       { width: 17px; height: 17px; }
+::-webkit-scrollbar-track { background: var(--win-scrollbar); }
+::-webkit-scrollbar-thumb {
+  background: var(--win-btnface);
+  border: 2px solid;
+  border-color: var(--border-hi) var(--border-dk) var(--border-dk) var(--border-hi);
+}
+::-webkit-scrollbar-button {
+  background: var(--win-btnface);
+  border: 2px solid;
+  border-color: var(--border-hi) var(--border-dk) var(--border-dk) var(--border-hi);
+  display: block;
+  height: 17px;
+}
+
+/* ── Default button — Windows pushbutton ── */
+button {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  cursor: pointer;
+  background: var(--win-btnface);
+  color: var(--win-btntext);
+  border: 2px solid;
+  border-color: var(--border-hi) var(--border-dk) var(--border-dk) var(--border-hi);
+  padding: 3px 10px;
+  transition: none;
+  outline: none;
+}
+button:focus { outline: 1px dotted #000; outline-offset: -4px; }
+button:active {
+  border-color: var(--border-dk) var(--border-hi) var(--border-hi) var(--border-dk);
+  padding: 4px 9px 2px 11px;
+}
+button:disabled { color: var(--text-muted); cursor: default; }
+
+/* ── Input / Select — sunken edit box ── */
+input, select {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--text-primary);
+  background: var(--bg-input);
+  border: 2px solid;
+  border-color: var(--border-sh) var(--border-hi) var(--border-hi) var(--border-sh);
+  padding: 2px 4px;
+  outline: none;
+}
+input:focus, select:focus { outline: 1px dotted #000; outline-offset: -3px; }
+input:disabled, select:disabled { background: var(--win-btnface); color: var(--text-muted); }

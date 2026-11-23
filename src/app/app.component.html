@@ -1,0 +1,71 @@
+<div class="emr-shell" *ngIf="state">
+  <!-- Top Device Header Banner -->
+  <header class="device-topbar">
+    <div class="brand">
+      <span class="emr-logo">EMPIRE</span>
+      <span class="model-name">{{ state.model }}</span>
+      <span class="tag-pill">{{ state.deviceTag }}</span>
+    </div>
+
+    <div class="ne107-status" [attr.data-status]="state.namurStatus">
+      <span class="ne-dot"></span>
+      <span>NAMUR NE107: {{ state.namurStatus.replace('_', ' ') }}</span>
+    </div>
+
+    <div class="top-controls">
+      <button class="ctrl-btn" [class.locked]="state.writeProtected" (click)="engine.toggleWriteProtect()">
+        {{ state.writeProtected ? '🔒 Write-Protected' : '🔓 Unlocked' }}
+      </button>
+
+      <button
+        class="ctrl-btn sim"
+        [class.active]="state.simulationRunning"
+        (click)="engine.toggleSimulation(!state.simulationRunning)"
+      >
+        {{ state.simulationRunning ? '● Live Scan: ON' : '❚❚ Scan Paused' }}
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <div class="emr-body">
+    <!-- Left Navigation Rail -->
+    <nav class="side-nav">
+      <a routerLink="/overview" routerLinkActive="active" class="nav-item">
+        <span class="ico">📊</span>
+        <div>
+          <strong>Overview &amp; Oil Flow</strong>
+          <small>Live PVs, Net Oil &amp; Trends</small>
+        </div>
+      </a>
+
+      <a routerLink="/configure" routerLinkActive="active" class="nav-item">
+        <span class="ico">⚙️</span>
+        <div>
+          <strong>Configure &amp; Fieldbus</strong>
+          <small>4-20mA I/O + AngularJS Modbus</small>
+        </div>
+      </a>
+
+      <a routerLink="/diagnostics" routerLinkActive="active" class="nav-item">
+        <span class="ico">🩺</span>
+        <div>
+          <strong>Service &amp; Diagnostics</strong>
+          <small>Smart Meter Verification &amp; NE107</small>
+        </div>
+      </a>
+
+      <div class="device-meta-box">
+        <div class="meta-row"><span>Serial:</span><strong>{{ state.serialNumber }}</strong></div>
+        <div class="meta-row"><span>Firmware:</span><strong>{{ state.firmwareVersion }}</strong></div>
+        <div class="meta-row"><span>IP Addr:</span><strong>{{ state.ipAddress }}</strong></div>
+        <div class="meta-row"><span>Architecture:</span><strong>Angular 18 + ngUpgrade (AJS 1.8)</strong></div>
+      </div>
+    </nav>
+
+    <!-- Routed Page Viewport -->
+    <main class="main-viewport">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

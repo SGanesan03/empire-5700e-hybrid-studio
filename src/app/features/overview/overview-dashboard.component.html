@@ -1,0 +1,134 @@
+<div class="dash-page" *ngIf="state">
+  <!-- Interactive Oil Flow Process Simulator Bar -->
+  <section class="sim-panel">
+    <div class="sim-title">
+      <span class="sim-badge">LIVE PROCESS SIMULATOR</span>
+      <span>Adjust crude oil grade, flow rate, water cut %, or inject two-phase gas slugs to test 5700-E response</span>
+    </div>
+
+    <div class="sim-controls">
+      <div class="ctrl-item">
+        <label for="oilPresetSel">Hydrocarbon / Fluid Grade</label>
+        <select id="oilPresetSel" [ngModel]="state.oilPreset" (ngModelChange)="onPresetChange($event)">
+          <option value="WTI_CRUDE_API_39">WTI Light Sweet Crude (39.1 °API)</option>
+          <option value="BRENT_CRUDE_API_38">North Sea Brent Crude (38.0 °API)</option>
+          <option value="HEAVY_BITUMEN_API_14">Heavy Diluted Bitumen (14.1 °API)</option>
+          <option value="DIESEL_ULSD_API_36">Refined ULSD Diesel (36.2 °API)</option>
+          <option value="TWO_PHASE_SLUG_FLOW">Multiphase Oil + Entrained Gas Slug</option>
+        </select>
+      </div>
+
+      <div class="ctrl-item">
+        <label for="flowSlider">Target Mass Flow: <strong>{{ state.targetFlowSetpointKgHr | number:'1.0-0' }} kg/h</strong></label>
+        <input
+          id="flowSlider"
+          type="range"
+          min="0"
+          max="95000"
+          step="500"
+          [ngModel]="state.targetFlowSetpointKgHr"
+          (ngModelChange)="onFlowChange($event)"
+        />
+      </div>
+
+      <div class="ctrl-item">
+        <label for="wcSlider">BS&amp;W Water Cut: <strong>{{ state.waterCutSetpointPct }}%</strong></label>
+        <input
+          id="wcSlider"
+          type="range"
+          min="0"
+          max="60"
+          step="0.5"
+          [ngModel]="state.waterCutSetpointPct"
+          (ngModelChange)="onWaterCutChange($event)"
+        />
+      </div>
+
+      <div class="ctrl-item toggle-col">
+        <label>Gas Breakout Simulation</label>
+        <button
+          class="gas-btn"
+          [class.active]="state.entrainedGasInjection"
+          (click)="toggleGasSlug()"
+        >
+          {{ state.entrainedGasInjection ? '⚠ Gas Slug ACTIVE' : 'Inject Gas Bubbles' }}
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Primary Custody-Transfer KPI Cards -->
+  <section class="kpi-grid">
+    <div class="kpi-card primary">
+      <div class="kpi-label">MASS FLOW RATE (PV1)</div>
+      <div class="kpi-body">
+        <div class="kpi-value">{{ state.pv.massFlowKgPerHr | number:'1.1-1' }} <small>kg/h</small></div>
+        <div class="kpi-sub">Sensor: {{ state.sensorModel }}</div>
+      </div>
+    </div>
+
+    <div class="kpi-card oil">
+      <div class="kpi-label">NET OIL FLOW (API MPMS 11.1)</div>
+      <div class="kpi-body">
+        <div class="kpi-value">{{ state.pv.netOilFlowBblPerDay | number:'1.1-1' }} <small>bbl/d</small></div>
+        <div class="kpi-sub">Gross: {{ state.pv.volumeFlowBblPerDay | number:'1.1-1' }} bbl/d • Water Cut: {{ state.pv.waterCutPercent }}%</div>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-label">LINE DENSITY &amp; API GRAVITY</div>
+      <div class="kpi-body">
+        <div class="kpi-value">{{ state.pv.densityKgPerM3 | number:'1.2-2' }} <small>kg/m³</small></div>
+        <div class="kpi-sub">Standard Gravity: {{ state.pv.apiGravity | number:'1.2-2' }} °API</div>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-label">PROCESS TEMPERATURE</div>
+      <div class="kpi-body">
+        <div class="kpi-value">{{ state.pv.processTempC | number:'1.2-2' }} <small>°C</small></div>
+        <div class="kpi-sub">Line Pressure: {{ state.pv.linePressureBar }} bar • Board: {{ state.pv.boardTempC }} °C</div>
+      </div>
+    </div>
+
+    <div class="kpi-card" [class.warn-card]="state.pv.driveGainPercent > 45">
+      <div class="kpi-label">CORIOLIS TUBE DRIVE GAIN</div>
+      <div class="kpi-body">
+        <div class="kpi-value">{{ state.pv.driveGainPercent | number:'1.1-1' }} <small>%</small></div>
+        <div class="kpi-sub">LPO: {{ state.pv.leftPickoffMv }} mV | RPO: {{ state.pv.rightPickoffMv }} mV</div>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-label">CUSTODY TOTALIZERS</div>
+      <div class="kpi-body">
+        <div class="kpi-value">{{ state.pv.netOilTotalizerBbl | number:'1.2-2' }} <small>bbl Net</small></div>
+        <div class="kpi-sub">
+          Mass Total: {{ state.pv.massTotalizerTonnes | number:'1.2-2' }} t
+          <button class="reset-link" (click)="resetTotalizers()">Reset</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live SVG Process Trend Chart -->
+  <section class="trend-card">
+    <div class="trend-head">
+      <div>
+        <h3>Real-Time Mass Flow &amp; Net Oil Trend (1.2s Firmware Scan)</h3>
+        <p>Blue: Mass Flow (kg/h) • Emerald: Net Oil Volume Flow (bbl/d)</p>
+      </div>
+      <span class="scan-badge">Buffer: {{ state.historian.length }} Samples</span>
+    </div>
+
+    <div class="svg-wrap">
+      <svg viewBox="0 0 800 180" preserveAspectRatio="none">
+        <line x1="0" y1="45" x2="800" y2="45" stroke="#cccccc" stroke-width="1" />
+        <line x1="0" y1="90" x2="800" y2="90" stroke="#cccccc" stroke-width="1" />
+        <line x1="0" y1="135" x2="800" y2="135" stroke="#cccccc" stroke-width="1" />
+        <polyline [attr.points]="massFlowPoints" fill="none" stroke="#0057a8" stroke-width="2" />
+        <polyline [attr.points]="netOilPoints" fill="none" stroke="#008000" stroke-width="2" stroke-dasharray="4 2" />
+      </svg>
+    </div>
+  </section>
+</div>

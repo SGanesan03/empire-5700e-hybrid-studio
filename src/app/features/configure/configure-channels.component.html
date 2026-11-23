@@ -1,0 +1,89 @@
+<div class="cfg-page" *ngIf="state">
+  <div class="lock-banner" *ngIf="state.writeProtected">
+    🔒 Transmitter Hardware Write-Protect Switch is ENABLED. Configuration fields are read-only.
+  </div>
+
+  <div class="feedback-msg" *ngIf="statusBanner">{{ statusBanner }}</div>
+
+  <!-- Device Identity & Protocol Card -->
+  <section class="card">
+    <div class="card-header">Device Identity &amp; Industrial Ethernet Protocol</div>
+    <div class="card-body"><div class="identity-grid">
+      <div class="field">
+        <label>HART / EtherNet/IP Device Tag</label>
+        <input type="text" [(ngModel)]="editTag" [disabled]="state.writeProtected" />
+      </div>
+      <div class="field">
+        <label>Fieldbus Protocol Stack</label>
+        <select [(ngModel)]="editProtocol" [disabled]="state.writeProtected">
+          <option value="EtherNet/IP + Modbus TCP">EtherNet/IP + Modbus TCP</option>
+          <option value="PROFINET IO">PROFINET IO</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>IPv4 Address / MAC</label>
+        <input type="text" [value]="state.ipAddress + ' (' + state.macAddress + ')'" disabled />
+      </div>
+      <div class="field btn-align">
+        <button class="primary-btn" [disabled]="state.writeProtected" (click)="saveIdentity()">
+          Apply Device Config
+        </button>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- I/O Channels Configuration Table -->
+  <section class="card">
+    <div class="card-header">5700-E Transmitter I/O &amp; 4-20mA Analog Output Channels</div>
+    <div class="card-body"><div class="table-wrap">
+      <table class="emr-table">
+        <thead>
+          <tr>
+            <th>Terminal</th>
+            <th>Channel Type</th>
+            <th>Assigned Variable</th>
+            <th>LRV (4mA)</th>
+            <th>URV (20mA)</th>
+            <th>Damping (s)</th>
+            <th>Live Output</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ch of editableChannels">
+            <td class="mono">{{ ch.terminal }}</td>
+            <td>{{ ch.channelType }}</td>
+            <td>
+              <select [(ngModel)]="ch.assignedVariable" [disabled]="state.writeProtected">
+                <option value="Mass Flow Rate">Mass Flow Rate</option>
+                <option value="Line Density">Line Density</option>
+                <option value="Net Oil Volume Totalizer">Net Oil Volume Totalizer</option>
+                <option value="Process Temperature">Process Temperature</option>
+                <option value="Input Assembly 101 (32-Byte Cyclic)">Input Assembly 101 (32-Byte Cyclic)</option>
+              </select>
+            </td>
+            <td><input type="number" class="sm-in" [(ngModel)]="ch.lrv" [disabled]="state.writeProtected" /></td>
+            <td><input type="number" class="sm-in" [(ngModel)]="ch.urv" [disabled]="state.writeProtected" /></td>
+            <td><input type="number" step="0.1" class="sm-in" [(ngModel)]="ch.dampingSec" [disabled]="state.writeProtected" /></td>
+            <td class="mono cyan">
+              {{ ch.channelType === 'mA Output (4-20mA)' ? (ch.loopCurrentMa + ' mA') : 'Cyclic Active' }}
+            </td>
+            <td>
+              <button class="save-sm" [disabled]="state.writeProtected" (click)="saveChannel(ch)">Write</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <!-- Embedded AngularJS 1.8.3 Legacy Component Upgraded via @angular/upgrade/static -->
+  <section class="card">
+    <div class="card-header">EtherNet/IP &amp; Modbus TCP Cyclic Register Map (AngularJS 1.8 Legacy Module)</div>
+    <div class="card-body"><emp-legacy-modbus-matrix
+      [registers]="state.modbusRegisters"
+      [ipAddress]="state.ipAddress"
+      [protocol]="state.protocol"
+    ></emp-legacy-modbus-matrix></div>
+  </section>
+</div>
