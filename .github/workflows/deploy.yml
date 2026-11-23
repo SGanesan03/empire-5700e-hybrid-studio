@@ -20,12 +20,18 @@ jobs:
           node-version: "20"
           cache: "npm"
       - run: npm install --no-audit --no-fund
-      # <REPO-NAME>-ku badhila unga Empire GitHub repo name podunga
-      - run: npx ng build --configuration production --base-href "/<REPO-NAME>/"
+      # Automatic-ah unga GitHub repository name-ah --base-href-la eduthukum
+      - run: npx ng build --configuration production --base-href "/${{ github.event.repository.name }}/"
+      # dist/ kulla irukura actual browser folder-ah automatic-ah kandupudichu upload pannum
+      - name: Locate Angular browser output folder
+        id: find_dist
+        run: |
+          BROWSER_DIR=$(find dist -maxdepth 3 -type d -name "browser" | head -n 1)
+          echo "Detected output path: $BROWSER_DIR"
+          echo "path=$BROWSER_DIR" >> $GITHUB_OUTPUT
       - uses: actions/upload-pages-artifact@v3
         with:
-          # angular.json-la outputPath maatralana idha apdiye vidunga; maathirundhaa dist/empire-5700e-hybrid-studio/browser nu podunga
-          path: dist/emerson-5700e-hybrid-studio/browser
+          path: ${{ steps.find_dist.outputs.path }}
 
   deploy:
     environment:
